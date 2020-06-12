@@ -7,11 +7,11 @@ import com.example.githubproject.manager.API
 import io.reactivex.disposables.CompositeDisposable
 
 
-class UserDataFactory(private val pageSize: Int, private val api: API, private val comp: CompositeDisposable) : DataSource.Factory<Int, User>() {
+class UserDataFactory(private val pageSize: Int, private val api: API, private val comp: CompositeDisposable) : DataSource.Factory<Int, GithubUser>() {
 
     val dataSource = MutableLiveData<PageUserData>()
 
-    override fun create(): DataSource<Int, User> {
+    override fun create(): DataSource<Int, GithubUser> {
         return PageUserData(pageSize, api, comp).apply {
             dataSource.postValue(this)
         }

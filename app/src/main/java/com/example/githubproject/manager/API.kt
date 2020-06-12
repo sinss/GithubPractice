@@ -1,6 +1,6 @@
 package com.example.githubproject.manager
 
-import com.example.githubproject.data.User
+import com.example.githubproject.data.GithubUser
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -33,13 +33,13 @@ class API {
         retrofit.create(RequestInterface::class.java)
     }
 
-    fun getUsers(since: Int = 0, perPage: Int = 20): Single<List<User>> {
+    fun getUsers(since: Int = 0, perPage: Int = 20): Single<List<GithubUser>> {
         return gitHubApi.getUsers(since, perPage)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getUser(userId: String): Single<User> {
+    fun getUser(userId: String): Single<GithubUser> {
         return gitHubApi.getUser(userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

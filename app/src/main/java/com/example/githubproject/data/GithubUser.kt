@@ -2,7 +2,7 @@ package com.example.githubproject.data
 
 import com.google.gson.annotations.SerializedName
 
-data class User(
+data class GithubUser(
     @SerializedName("id")
     var id: Int,
 
