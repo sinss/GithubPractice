@@ -1,9 +1,7 @@
 # Android MVVM + Kotlin
 
 ## Snapsnots
-    <p float="left">
-        <img src="/snapshot.png" width="200" />
-    </p>
+    ![image](https://github.com/sinss/GithubPractice/blob/master/snapshot.png)
 
 ## References
     - https://developer.github.com/v3/users/#list-users
