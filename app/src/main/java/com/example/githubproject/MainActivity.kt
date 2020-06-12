@@ -1,38 +1,52 @@
 package com.example.githubproject
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import com.example.githubproject.adapter.UserPagingAdapter
+import com.example.githubproject.databinding.ActivityMainBinding
+import com.example.githubproject.manager.NetworkState
+import com.example.githubproject.manager.Status
+import com.example.githubproject.viewModel.GithubUserViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
+    private val listViewModel: GithubUserViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        val binding: ActivityMainBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
+
+        val adapter = UserPagingAdapter(listViewModel)
+        binding.listView.adapter = adapter
+        listViewModel.pagedList.observe(this, Observer {
+            adapter.submitList(it)
+        })
+
+        listViewModel.initLoadState.observe(this, Observer { state ->
+            binding.loadingView.visibility =
+                if (state == NetworkState.LOADING) View.VISIBLE else View.GONE
+        })
+
+        listViewModel.networkState.observe(this, Observer { state ->
+            if (state.status == Status.FAILED) showToast(state.msg)
+        })
+
+        listViewModel.focusGithubUser.observe(this, Observer { data ->
+            //TODO: Display user detail page
+        })
+
+        listViewModel.getGitHubUsers()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
+    private fun showToast(msg: String?) {
+        Toast.makeText(this, msg ?: "", Toast.LENGTH_LONG).show()
     }
 }

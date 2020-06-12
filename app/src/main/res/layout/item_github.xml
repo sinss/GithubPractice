@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="user"
+            type="com.example.githubproject.data.GithubUser" />
+
+        <variable
+            name="viewModel"
+            type="com.example.githubproject.viewModel.GithubUserViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:onClick="@{(v) -> viewModel.onClickUserInfo(user.login)}"
+        >
+
+        <View
+            android:id="@+id/line0_view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#06000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/avatar_view"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:imageUrl="@{user.avatarUrl}"
+            tools:background="#ff00ff" />
+<!--        app:avatarUrl="@{user.avatarUrl}"-->
+        <TextView
+            android:id="@+id/name_view"
+            android:layout_width="250dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:paddingEnd="10dp"
+            android:textSize="14sp"
+            android:text="@{user.login}"
+            android:textColor="#585858"
+            app:layout_constraintBottom_toTopOf="@+id/admin_view"
+            app:layout_constraintStart_toEndOf="@+id/avatar_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1"
+            tools:text="Test content" />
+
+        <TextView
+            android:id="@+id/number_view"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:text="@{String.valueOf(user.id)}"
+            android:textColor="#585858"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toTopOf="@+id/admin_view"
+            app:layout_constraintLeft_toRightOf="@+id/name_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_weight="1" />
+
+        <TextView
+            android:id="@+id/admin_view"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:textSize="14sp"
+            android:background="@drawable/ic_circle_purple_r180_bg"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:text="@string/staff"
+            android:visibility="@{user.site_admin ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@+id/name_view"
+            app:layout_constraintStart_toEndOf="@+id/avatar_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_weight="1"
+            tools:visibility="visible"/>
+
+        <View
+            android:id="@+id/line1_view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#50000000"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <View
+            android:id="@+id/line2_view"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="#20000000"
+            android:layout_marginBottom="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

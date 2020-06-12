@@ -1,6 +1,6 @@
 package com.example.githubproject.manager
 
-import com.example.githubproject.data.User
+import com.example.githubproject.data.GithubUser
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,11 +11,11 @@ interface RequestInterface {
     fun getUsers(
         @Query("since") since: Int,
         @Query("per_page") perPage: Int
-    ): Single<List<User>>
+    ): Single<List<GithubUser>>
 
 
     @GET("users/{userId}")
-    fun getUser(@Path("userId") userId: String): Single<User>
+    fun getUser(@Path("userId") userId: String): Single<GithubUser>
 }
 
 enum class Status {

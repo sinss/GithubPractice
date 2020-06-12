@@ -5,7 +5,7 @@ import androidx.paging.PagedList
 import com.example.githubproject.manager.NetworkState
 
 data class RepoData(
-    val pagedList: LiveData<PagedList<User>>,
+    val pagedList: LiveData<PagedList<GithubUser>>,
 
     val networkState: LiveData<NetworkState>,
 

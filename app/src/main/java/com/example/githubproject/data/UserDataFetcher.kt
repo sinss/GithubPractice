@@ -6,7 +6,7 @@ import androidx.paging.PagedList
 import com.example.githubproject.manager.API
 import io.reactivex.disposables.CompositeDisposable
 
-class UserData(private val api: API,  private val comp: CompositeDisposable) {
+class UserDataFetcher(private val api: API, private val comp: CompositeDisposable) {
 
     fun getUsers(): RepoData {
 

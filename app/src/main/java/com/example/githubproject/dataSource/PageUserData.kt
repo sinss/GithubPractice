@@ -2,7 +2,7 @@ package com.example.githubproject.dataSource
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.example.githubproject.data.User
+import com.example.githubproject.data.GithubUser
 import com.example.githubproject.manager.API
 import com.example.githubproject.manager.NetworkState
 import io.reactivex.disposables.CompositeDisposable
@@ -14,7 +14,7 @@ class PageUserData(
     private val pageSize: Int,
     private val api: API,
     private val comp: CompositeDisposable
-) : PageKeyedDataSource<Int, User>() {
+) : PageKeyedDataSource<Int, GithubUser>() {
     val state = MutableLiveData<NetworkState>()
 
     val initialLoad = MutableLiveData<NetworkState>()
@@ -33,7 +33,7 @@ class PageUserData(
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, User>
+        callback: LoadInitialCallback<Int, GithubUser>
     ) {
         initialLoad.postValue(NetworkState.LOADING)
         try {
@@ -62,6 +62,8 @@ class PageUserData(
                         initialLoad.postValue(NetworkState.LOADED)
                     },
                     onError = {
+                        initialLoad.postValue(NetworkState.error(""))
+                        state.postValue(NetworkState.error("ioException.message"))
                     }
                 ))
         } catch (ioException: IOException) {
@@ -75,7 +77,7 @@ class PageUserData(
 
     override fun loadAfter(
         params: LoadParams<Int>,
-        callback: LoadCallback<Int, User>
+        callback: LoadCallback<Int, GithubUser>
     ) {
         val id = params.key
         state.postValue(NetworkState.LOADING)
@@ -114,7 +116,7 @@ class PageUserData(
 
     override fun loadBefore(
         params: LoadParams<Int>,
-        callback: LoadCallback<Int, User>
+        callback: LoadCallback<Int, GithubUser>
     ) {
         // no need
     }
